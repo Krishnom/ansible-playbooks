@@ -1,0 +1,23 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+  - name: Get user wrong hits
+    shell: pam_tally2 -u "{{ item.name }}" | tail -1
+    register: output
+    with_items: "{{ user_details }}"
+
+  - name: Reset wrong hit counts
+    shell: pam_tally2 -u "{{ item.name }}" -r
+    with_items: "{{ user_details }}"
+
+  - name: Check user status
+    shell: chage -l "{{ item.name }}"
+    register: output
+    with_items: "{{ user_details }}"
+
+  # - debug: var=item.stdout
+  #   with_items: "{{ output.results | list }}"

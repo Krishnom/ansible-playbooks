@@ -1,0 +1,14 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+  vars:
+    new_label: 1609459199  # # Epoch value of expiry date of user account
+  
+  tasks:
+  - name: Update user comment/label
+    user:
+      name:  "{{ item.name }}"
+      comment: "{{ new_label }}"
+    with_items: "{{ user_details }}"

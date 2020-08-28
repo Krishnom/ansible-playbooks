@@ -1,0 +1,10 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+  - name: Unlock users
+    shell: passwd -U "{{ item.name }}"
+    with_items: "{{ user_details }}"

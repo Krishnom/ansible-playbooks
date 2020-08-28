@@ -1,0 +1,11 @@
+ansible_user: opaliwal
+ansible_password: opaliwal
+
+#Note: password is in encrypted form. Checkout below page for more information on how to generate one
+# https://docs.ansible.com/ansible/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+user_details:
+       - { name: user1, uid: 1002, groups: "admin", password: '$6$.ujJRtz16lVF3m2$AVBq59V1tlnt3znGOQhzBMFyYqwtnuFGSQqTG6xpvjpj.32BYGu071ozEci6WCPLrb91kegSacq.kPkV..P/2/'}
+       - { name: user2, uid: 1003, groups: "admin", password: '$6$keqQIjTB3h7wt$mHS9z/uvQWyja0aOkHlpGqWe4wJkNybZikloPCUxK/SZTzAW74IZdsYCbFXyssGJaQg/joI66xhIUOhpKvjmA1'}
+
+# Epoch value of expiry date of user account
+default_expiry: 1609459199  # Thursday, December 31, 2020 11:59:59 PM

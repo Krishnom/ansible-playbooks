@@ -1,0 +1,12 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+  - name: Remove expiry time
+    user:
+       name:  "{{ item.name }}"
+       expires: -1
+    with_items: "{{ user_details }}"

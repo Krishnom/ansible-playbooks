@@ -1,0 +1,14 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+  vars:
+    new_expiry: 1609459199  # # Epoch value of expiry date of user account
+
+  tasks:
+  - name: Update user expiry date
+    user:
+      name:  "{{ item.name }}"
+      expires: "{{ new_expiry }}"
+    with_items: "{{ user_details }}"
