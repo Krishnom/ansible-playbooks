@@ -6,5 +6,4 @@
 
   tasks:
   - name: Unlock users
-    shell: passwd -l "{{ item.name }}"
-    with_items: "{{ user_details }}"
+    shell: passwd -l "{{ username }}"

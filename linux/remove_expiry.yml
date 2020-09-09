@@ -7,6 +7,5 @@
   tasks:
   - name: Remove expiry time
     user:
-       name:  "{{ item.name }}"
+       name:  "{{ username }}"
        expires: -1
-    with_items: "{{ user_details }}"

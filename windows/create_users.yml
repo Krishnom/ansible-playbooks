@@ -1,20 +1,10 @@
 ---
-- hosts: linux # group 
+- hosts: windows # group 
   become: true
   vars_files:
       - vars.yml
 
   tasks:
-  # - name: Create users(updates password if password differs)
-  #   user:
-  #     name:  "{{ item.name }}"
-  #     uid:   "{{ item.uid }}"
-  #     group: "{{ item.groups }}"
-  #     password: "{{ item.password }}"
-  #     update_password: always
-  #     expires: "{{ default_expiry }}"
-  #     state: present
-  #   with_items: "{{ user_details }}"
 
   # --extra-vars "username=<user> usergroup=<group>"
   - name: Create addtional user(updates password if password differs)

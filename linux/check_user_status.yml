@@ -1,0 +1,14 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+  vars:
+    user_id: user1
+  
+  tasks:
+  - raw: "chage -l {{ user_id }} |grep -C 0 Account"
+    register: expiry
+  
+  - debug:
+      msg: "User {{ user_id }}: {{ expiry.stdout }}"

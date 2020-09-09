@@ -1,0 +1,12 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+  - name: Reset wrong hit counts
+    shell: pam_tally2 -u "{{ username }}" -r
+    
+  - name: Unlock users
+    shell: passwd -U "{{ username }}"

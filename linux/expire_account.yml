@@ -1,0 +1,12 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+  - debug: var=date_now.stdout
+
+  # TODO: Use yesterday date here
+  - name: Update user expiry dates
+    shell: chage -E "Jan 1, 2020"   {{ username }}

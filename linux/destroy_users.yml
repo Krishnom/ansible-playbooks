@@ -7,7 +7,6 @@
   tasks:
   - name: Remove users
     user:
-      name: "{{ item.name }}"
+      name: "{{ username }}"
       state: absent
       remove: yes
-    with_items: "{{ user_details }}"
