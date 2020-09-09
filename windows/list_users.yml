@@ -5,7 +5,6 @@
 
   tasks:
 
-  # --extra-vars "username=<user> usergroup=<group>"
   - name: List all user
     win_shell : Get-LocalUser
     register: homedir_out

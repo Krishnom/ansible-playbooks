@@ -5,11 +5,14 @@
 
   tasks:
 
-  # --extra-vars "username=<user> usergroup=<group>"
-  - name: Ensure user bob is present
+  # --extra-vars "username=<user> usergroup=<group> fullname=<fullname> description=<description>"
+  - name: Create new user 
     win_user:
       name: {{ username  }}
       password: {{ password  }}
       state: present
+      description: {{ description }}
+      fullname: {{ fullname }}
+      password_expired : yes # This will force user to reset password on next login
       groups:
         - {{ usergroup }}

@@ -7,7 +7,7 @@
   tasks:
 
   # --extra-vars "username=<user>"
-  - name: Remove user
+  - name: Disable user account
     win_user:
-      name: {{username}}
-      state: absent 
+      name: {{ username }}
+      account_disabled : true

@@ -1,0 +1,12 @@
+---
+- hosts: windows # group 
+  vars_files:
+      - vars.yml
+
+  tasks:
+
+  # --extra-vars "username=<user> description=<description>"
+  - name: Update user description
+    win_user:
+      name: {{ username  }}
+      description: {{ description }}
