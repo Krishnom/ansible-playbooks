@@ -1,17 +1,15 @@
 ---
 - hosts: windows # group 
-  become: true
   vars_files:
       - vars.yml
 
   tasks:
 
   # --extra-vars "username=<user> usergroup=<group>"
-  - name: Create addtional user(updates password if password differs)
-    user:
-      name:  "{{ username }}"
-      group: "{{ usergroup }}"
-      password: "{{ default_password }}"
-      update_password: always
-      expires: "{{ default_expiry }}"
+  - name: Ensure user bob is present
+    win_user:
+      name: {{ username  }}
+      password: {{ password  }}
       state: present
+      groups:
+        - {{ usergroup }}

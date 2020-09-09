@@ -1,0 +1,13 @@
+---
+- hosts: windows # group 
+  vars_files:
+      - vars.yml
+
+  tasks:
+
+  # --extra-vars "username=<user> usergroup=<group>"
+  - name: List all user
+    win_shell : Get-LocalUser
+    register: homedir_out
+
+  - debug: var=homedir_out.stdout_lines  

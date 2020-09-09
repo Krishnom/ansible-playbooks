@@ -1,0 +1,13 @@
+---
+- hosts: windows # group 
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+
+  # --extra-vars "username=<user>"
+  - name: Ensure user bob is absent
+    win_user:
+      name: bob
+      state: absent 
