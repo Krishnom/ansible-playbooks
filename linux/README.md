@@ -4,14 +4,14 @@ set of usefull ansible playbooks and roles
 > Update ansible_user and ansible_password in vars.yml file to user with sudo access on the machine. You do not require asible_passwd if sudo access with NOPASSWD is set.
 
 ## Linux
-### Create user and let user reset password on next login. This doesn't do anything if user is already there.
+### Create user with random password(gets printed in cleartext on console) and forces user to set password on first login. This doesn't do anything if user is already there.
 `ansible-playbook -i hosts.ini linux/create_users.yml -K --extra-vars "username=<username> usergroup=<usergroup>"`
 
 > This creates user with default password set as <username>. At first login user will be prompt to reset password.
 > Group <usergroup> must exists
 
 
-### ID Reset (password reset) to default value(username). Fails if user doesn't exists.
+### ID Reset (password reset) to random password(gets printed in cleartext on console). Fails if user doesn't exists.
 `ansible-playbook -i hosts.ini linux/reset_password.yml -K --extra-vars "username=<username>"`
 
 ### Reset Wrong Hits (Also unlocks user)

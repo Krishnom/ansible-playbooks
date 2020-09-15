@@ -28,4 +28,4 @@
       msg: 
         - "{{ username }} Account Expires : {{ account_expiry.stdout.split(':')[1] }}"
         - "{{ username }} Password Expires : {{ password_expiry.stdout.split(':')[1] }}"
-        - "{{ username }}  User Account Label(comment): {{ user_details.comment}}"
+        - "{{ username }} User Account Label(comment): {{ user_details.comment}}"

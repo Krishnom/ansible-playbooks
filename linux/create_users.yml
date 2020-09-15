@@ -5,19 +5,28 @@
       - vars.yml
 
   tasks:
-  - name: generate password for new user(same as username)
-    shell:  mkpasswd --method=SHA-512 {{username}}
-    register: user_pw
+  # - name: generate password for new user(same as username)
+  #   shell:  mkpasswd --method=SHA-512 {{username}}
+  #   register: user_pw
 
   - name: Create addtional user(updates password if password differs)
     user:
       name:  "{{ username }}"
       group: "{{ usergroup }}"
-      password: "{{ user_pw.stdout }}"
+      # password: "{{ user_pw.stdout }}"
+      password: "{{ lookup('password', 'credentials/' + username + '/password.txt encrypt=sha512_crypt chars=ascii_letters,digits,hexdigits length=10') }}"
       update_password: on_create
       state: present
     register: user_state
 
+  # - name: Unlock password and set it to empty
+  #     shell: passwd -d {{username}}
+
   - name: Force user to reset password at first login(only if a new user is created)
     shell: passwd --expire {{ username }}
     when: user_state.changed
+
+  - debug: 
+      msg: "Password is {{item.split()[0]}}"
+    with_file:
+      - "credentials/{{username}}/password.txt"
