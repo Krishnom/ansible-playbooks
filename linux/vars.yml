@@ -10,5 +10,5 @@ gather_facts: false
 #        - { name: user3, uid: 1004, groups: "admin", password: '$6$keqQIjTB3h7wt$mHS9z/uvQWyja0aOkHlpGqWe4wJkNybZikloPCUxK/SZTzAW74IZdsYCbFXyssGJaQg/joI66xhIUOhpKvjmA1'}
 
 # Epoch value of expiry date of user account
-default_expiry: 1609462800  # Never # TODO: want to specify days from now say 60 days from now
-default_password: '$6$crITvFIkM$V3Dg6yudC.odBQ8WBHW5EPE/4OkO1/A1XMH8iBuBnHo4LQtvZHR7iqQBpv.CGY8fn4cSSmqCp2J3QZGC5cRZs.' #user
+# Never # TODO: want to specify days from now say 60 days from now
+default_expiry: 1609462800

@@ -5,8 +5,15 @@
       - vars.yml
 
   tasks:
+  - name: get wrong hits count
+    shell: pam_tally2 -u {{username}} -r |grep {{username}} |awk '{print $2}'
+    register: wrong_hits
+
+  - debug:
+      msg: Total {{wrong_hits.stdout}} Wrong hit were registered for {{username}}
+
   - name: Reset wrong hit counts
-    shell: pam_tally2 -u "{{ username }}" -r
-    
+    shell: pam_tally2 -u "{{username}}" -r
+  
   - name: Unlock users
-    shell: passwd -U "{{ username }}"
+    shell: passwd -u "{{ username }}"

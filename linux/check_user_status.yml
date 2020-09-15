@@ -3,12 +3,29 @@
   become: true
   vars_files:
       - vars.yml
-  vars:
-    user_id: user1
-  
+  roles:
+    - ../roles/user_exists
+
   tasks:
-  - raw: "chage -l {{ user_id }} |grep -C 0 Account"
-    register: expiry
+  - name: Check Account Expiry
+    shell: "chage -l {{ username }} | grep -C 0 'Account expires'"
+    register: account_expiry
   
+  - name: Check password expiry
+    shell: "chage -l {{ username }} | grep -C 0 'Password expires'"
+    register: password_expiry
+  
+  - name: Get user information
+    user:
+      name: "{{username}}"
+    register: user_details
+
   - debug:
-      msg: "User {{ user_id }}: {{ expiry.stdout }}"
+      msg: user_details
+
+
+  - debug:
+      msg: 
+        - "{{ username }} Account Expires : {{ account_expiry.stdout.split(':')[1] }}"
+        - "{{ username }} Password Expires : {{ password_expiry.stdout.split(':')[1] }}"
+        - "{{ username }}  User Account Label(comment): {{ user_details.comment}}"

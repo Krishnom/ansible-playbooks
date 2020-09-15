@@ -5,23 +5,19 @@
       - vars.yml
 
   tasks:
-  # - name: Create users(updates password if password differs)
-  #   user:
-  #     name:  "{{ item.name }}"
-  #     uid:   "{{ item.uid }}"
-  #     group: "{{ item.groups }}"
-  #     password: "{{ item.password }}"
-  #     update_password: always
-  #     expires: "{{ default_expiry }}"
-  #     state: present
-  #   with_items: "{{ user_details }}"
+  - name: generate password for new user(same as username)
+    shell:  mkpasswd --method=SHA-512 {{username}}
+    register: user_pw
 
-  # --extra-vars "username=<user> usergroup=<group>"
   - name: Create addtional user(updates password if password differs)
     user:
       name:  "{{ username }}"
       group: "{{ usergroup }}"
-      password: "{{ default_password }}"
-      update_password: always
-      expires: "{{ default_expiry }}"
+      password: "{{ user_pw.stdout }}"
+      update_password: on_create
       state: present
+    register: user_state
+
+  - name: Force user to reset password at first login(only if a new user is created)
+    shell: passwd --expire {{ username }}
+    when: user_state.changed

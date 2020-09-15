@@ -5,7 +5,7 @@
       - vars.yml
 
   tasks:
-  - name: Remove expiry time
+  - name: Remove expiry time(Never expires)
     user:
        name:  "{{ username }}"
        expires: -1

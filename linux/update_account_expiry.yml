@@ -1,0 +1,10 @@
+---
+- hosts: linux
+  become: true
+  vars_files:
+      - vars.yml
+
+  tasks:
+
+  - name: Update expiry date for user account
+    shell:  chage -E "{{ expiry_date }}" {{ username }}

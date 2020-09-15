@@ -3,7 +3,9 @@
   become: true
   vars_files:
       - vars.yml
-  
+  roles:
+    - user_exists
+    
   tasks:
   - name: Update user comment/label
     user:
