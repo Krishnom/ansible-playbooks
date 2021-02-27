@@ -1,0 +1,143 @@
+---
+- hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install Java Version
+      apt: name="openjdk-8-jdk" state=present
+
+    - name: Install logrotate
+      apt: name=logrotate state=present
+
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+
+    - name: start nginx
+      service: name=nginx state=started enabled=yes
+
+    - name: Create systemd file
+      copy:
+        dest: /etc/systemd/system/our_java_app.service
+        content: |
+          [Unit]
+          Description=Java app
+          AssertPathExists=/home/halodoc/deploy
+
+          [Service]
+          WorkingDirectory=/home/halodoc/deploy
+          ExecStart=/usr/bin/java -jar simple-application.jar server simple.yml
+          StandardOutput=/var/log/our_java_app/out.log
+          StandardError=/var/log/our_java_app/err.log
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+
+
+    - name: nginx | proxy config
+      copy:
+        dest: /etc/nginx/conf.d/proxy-our_java_app.conf
+        content: |
+          server {
+              listen       80;
+              location / {
+                  proxy_pass http://127.0.0.1:4000;
+              }
+          }
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+    - name: enable log rotation
+      copy:
+        dest: /etc/logrotate.d/our_java_app.conf
+        content: |
+          /var/log/our_java_app/ {
+                           weekly
+                           rotate 3
+                           size 10M
+                           compress
+                           delaycompress
+          }
+          /var/log/our_java_app/err.log {
+                           weekly
+                           rotate 3
+                           size 10M
+                           compress
+                           delaycompress
+          }
+
+    - name: enable and start java sevice
+      service:   name=our_java_app state=started enabled=yes---
+- hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install Java Version
+      apt: name="openjdk-8-jdk" state=present
+
+    - name: Install logrotate
+      apt: name=logrotate state=present
+
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+
+    - name: start nginx
+      service: name=nginx state=started enabled=yes
+
+    - name: Create systemd file
+      copy:
+        dest: /etc/systemd/system/our_java_app.service
+        content: |
+          [Unit]
+          Description=Java app
+          AssertPathExists=/home/halodoc/deploy
+
+          [Service]
+          WorkingDirectory=/home/halodoc/deploy
+          ExecStart=/usr/bin/java -jar simple-application.jar server simple.yml
+          StandardOutput=/var/log/our_java_app/out.log
+          StandardError=/var/log/our_java_app/err.log
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+
+
+    - name: nginx | proxy config
+      copy:
+        dest: /etc/nginx/conf.d/proxy-our_java_app.conf
+        content: |
+          server {
+              listen       80;
+              location / {
+                  proxy_pass http://127.0.0.1:4000;
+              }
+          }
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+    - name: enable log rotation
+      copy:
+        dest: /etc/logrotate.d/our_java_app.conf
+        content: |
+          /var/log/our_java_app/ {
+                           weekly
+                           rotate 3
+                           size 10M
+                           compress
+                           delaycompress
+          }
+          /var/log/our_java_app/err.log {
+                           weekly
+                           rotate 3
+                           size 10M
+                           compress
+                           delaycompress
+          }
+
+    - name: enable and start java sevice
+      service:   name=our_java_app state=started enabled=yes
